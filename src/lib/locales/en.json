@@ -1,0 +1,360 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "back": "Back",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "language": "Language"
+  },
+  "navigation": {
+    "home": "Home",
+    "products": "Products",
+    "orders": "Orders",
+    "chat": "Chat",
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "admin": "Admin",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+  },
+  "home": {
+    "hero": {
+      "title": "Farmers' Direct Market",
+      "subtitle": "Connect directly with local farmers for fresh, quality produce",
+      "cta": "Start Shopping",
+      "learnMore": "Learn More"
+    },
+    "features": {
+      "title": "Why Choose Farmers' Direct Market?",
+      "fresh": {
+        "title": "Fresh from Farm",
+        "description": "Get produce directly from local farmers, ensuring maximum freshness"
+      },
+      "local": {
+        "title": "Support Local",
+        "description": "Support your local farming community and reduce food miles"
+      },
+      "quality": {
+        "title": "Quality Assured",
+        "description": "All farmers are verified and quality-checked"
+      },
+      "direct": {
+        "title": "Direct Connection",
+        "description": "Chat directly with farmers about their products"
+      }
+    },
+    "categories": {
+      "title": "Browse by Category",
+      "vegetables": "Vegetables",
+      "fruits": "Fruits",
+      "grains": "Grains",
+      "dairy": "Dairy",
+      "meat": "Meat",
+      "herbs": "Herbs"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your account",
+      "email": "Email",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "loginButton": "Sign In"
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Join Farmers' Direct Market",
+      "name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "role": "I am a",
+      "farmer": "Farmer",
+      "buyer": "Buyer",
+      "phone": "Phone Number",
+      "address": "Address",
+      "farmName": "Farm Name (for farmers)",
+      "terms": "I agree to the terms and conditions",
+      "registerButton": "Create Account",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    }
+  },
+  "upload": {
+    "title": "Upload Images",
+    "uploading": "Uploading...",
+    "dropHere": "Drop files here",
+    "dragDropOrClick": "Drag & drop images here, or click to select",
+    "supportedFormats": "Supported formats",
+    "maxSize": "Max file size",
+    "maxFiles": "Max files",
+    "processing": "Processing images...",
+    "errors": "Upload Errors",
+    "fileTooLarge": "File is too large",
+    "invalidType": "Invalid file type",
+    "uploadFailed": "Upload failed",
+    "networkError": "Network error occurred"
+  },
+  "gallery": {
+    "noImages": "No images uploaded yet",
+    "view": "View image",
+    "delete": "Delete image",
+    "reorder": "Reorder images",
+    "showing": "Showing",
+    "of": "of",
+    "images": "images",
+    "uploaded": "Uploaded"
+  },
+  "payments": {
+    "title": "Payment",
+    "orderTotal": "Order Total",
+    "commissionNote": "Platform commission: {{percentage}}%",
+    "selectMethod": "Select Payment Method",
+    "proceedToPayment": "Proceed to Payment",
+    "processing": "Processing...",
+    "comingSoon": "Coming Soon",
+    "bankTransferDetails": "Bank Transfer Details",
+    "transactionId": "Transaction ID",
+    "transactionIdPlaceholder": "Enter transaction ID",
+    "bankName": "Bank Name",
+    "bankNamePlaceholder": "Enter bank name",
+    "accountNumber": "Account Number",
+    "accountNumberPlaceholder": "Enter account number",
+    "transferAmount": "Transfer Amount",
+    "errors": {
+      "noOrder": "No order found",
+      "submissionFailed": "Payment submission failed"
+    },
+    "methods": {
+      "cod": "Cash on Delivery",
+      "codDesc": "Pay when you receive your order",
+      "bankTransfer": "Bank Transfer",
+      "bankTransferDesc": "Transfer money directly to bank account",
+      "stripe": "Credit/Debit Card",
+      "stripeDesc": "Secure online payment with Stripe",
+      "razorpay": "UPI & Digital Payments",
+      "razorpayDesc": "Pay using UPI, cards, or digital wallets"
+    }
+  },
+  "subscriptions": {
+    "selectBillingCycle": "Select Billing Cycle",
+    "mostPopular": "Most Popular",
+    "currentPlan": "Current Plan",
+    "selected": "Selected",
+    "selectPlan": "Select Plan",
+    "selectedPlanSummary": "Selected Plan Summary",
+    "plan": "Plan",
+    "billingCycle": "Billing Cycle",
+    "totalAmount": "Total Amount",
+    "save": "Save {{percentage}}%",
+    "originalPrice": "Original: ₹{{price}}",
+    "billing": {
+      "monthly": "month",
+      "quarterly": "quarter",
+      "yearly": "year"
+    },
+    "plans": {
+      "basic": {
+        "name": "Basic Plan",
+        "description": "Perfect for small farmers starting out"
+      },
+      "premium": {
+        "name": "Premium Plan",
+        "description": "Ideal for growing farming businesses"
+      },
+      "enterprise": {
+        "name": "Enterprise Plan",
+        "description": "For large-scale farming operations"
+      }
+    },
+    "features": {
+      "maxProducts": "Up to {{count}} products",
+      "maxImagesPerProduct": "Up to {{count}} images per product",
+      "basicSupport": "Basic customer support",
+      "standardListing": "Standard product listing",
+      "priorityListing": "Priority product listing",
+      "analytics": "Sales analytics & insights",
+      "marketingTools": "Marketing tools & promotions",
+      "premiumSupport": "Priority customer support",
+      "advancedAnalytics": "Advanced analytics & reporting",
+      "advancedMarketingTools": "Advanced marketing tools",
+      "dedicatedSupport": "Dedicated account manager",
+      "customFeatures": "Custom features & integrations"
+    }
+  },
+  "products": {
+    "title": "Products",
+    "searchPlaceholder": "Search products...",
+    "filters": {
+      "title": "Filters",
+      "category": "Category",
+      "priceRange": "Price Range",
+      "location": "Location",
+      "distance": "Distance (km)",
+      "apply": "Apply Filters",
+      "clear": "Clear Filters"
+    },
+    "sort": {
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "priceLow": "Price: Low to High",
+      "priceHigh": "Price: High to Low",
+      "distance": "Distance",
+      "rating": "Rating"
+    },
+    "product": {
+      "addToCart": "Add to Cart",
+      "contactFarmer": "Contact Farmer",
+      "quantity": "Quantity",
+      "unit": "Unit",
+      "price": "Price",
+      "available": "Available",
+      "harvestDate": "Harvest Date",
+      "description": "Description",
+      "farmer": "Farmer",
+      "rating": "Rating",
+      "reviews": "Reviews"
+    },
+    "create": {
+      "title": "Add New Product",
+      "subtitle": "List your fresh produce",
+      "titleLabel": "Product Title",
+      "descriptionLabel": "Description",
+      "categoryLabel": "Category",
+      "priceLabel": "Price per Unit",
+      "quantityLabel": "Available Quantity",
+      "unitLabel": "Unit",
+      "imagesLabel": "Product Images",
+      "harvestDateLabel": "Harvest Date",
+      "createButton": "Create Product"
+    }
+  },
+  "orders": {
+    "title": "Orders",
+    "status": {
+      "placed": "Placed",
+      "confirmed": "Confirmed",
+      "packed": "Packed",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "order": {
+      "orderId": "Order ID",
+      "date": "Order Date",
+      "total": "Total",
+      "status": "Status",
+      "items": "Items",
+      "farmer": "Farmer",
+      "buyer": "Buyer",
+      "address": "Delivery Address",
+      "actions": "Actions",
+      "viewDetails": "View Details",
+      "updateStatus": "Update Status",
+      "cancelOrder": "Cancel Order"
+    },
+    "details": {
+      "title": "Order Details",
+      "orderInfo": "Order Information",
+      "items": "Order Items",
+      "history": "Order History",
+      "notes": "Notes",
+      "addNote": "Add Note",
+      "updateStatus": "Update Status"
+    }
+  },
+  "chat": {
+    "title": "Messages",
+    "newMessage": "New Message",
+    "searchChats": "Search chats...",
+    "noChats": "No conversations yet",
+    "startChat": "Start a conversation",
+    "message": {
+      "placeholder": "Type your message...",
+      "send": "Send",
+      "typing": "typing...",
+      "online": "Online",
+      "offline": "Offline",
+      "lastSeen": "Last seen",
+      "unread": "unread messages"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Profile",
+    "personalInfo": "Personal Information",
+    "contactInfo": "Contact Information",
+    "location": "Location",
+    "verification": "Verification Status",
+    "verified": "Verified",
+    "unverified": "Unverified",
+    "stats": {
+      "title": "Statistics",
+      "totalOrders": "Total Orders",
+      "totalProducts": "Total Products",
+      "rating": "Average Rating",
+      "reviews": "Total Reviews"
+    }
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "users": {
+      "title": "Users",
+      "allUsers": "All Users",
+      "farmers": "Farmers",
+      "buyers": "Buyers",
+      "verifyFarmer": "Verify Farmer",
+      "unverifyFarmer": "Unverify Farmer"
+    },
+    "orders": {
+      "title": "Orders",
+      "allOrders": "All Orders",
+      "pending": "Pending",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "products": {
+      "title": "Products",
+      "allProducts": "All Products",
+      "active": "Active",
+      "inactive": "Inactive"
+    }
+  },
+  "errors": {
+    "general": "Something went wrong. Please try again.",
+    "network": "Network error. Please check your connection.",
+    "unauthorized": "You are not authorized to perform this action.",
+    "notFound": "The requested resource was not found.",
+    "validation": "Please check your input and try again.",
+    "server": "Server error. Please try again later."
+  },
+  "success": {
+    "profileUpdated": "Profile updated successfully",
+    "productCreated": "Product created successfully",
+    "productUpdated": "Product updated successfully",
+    "productDeleted": "Product deleted successfully",
+    "orderPlaced": "Order placed successfully",
+    "orderUpdated": "Order updated successfully",
+    "messageSent": "Message sent successfully",
+    "farmerVerified": "Farmer verified successfully"
+  }
+}

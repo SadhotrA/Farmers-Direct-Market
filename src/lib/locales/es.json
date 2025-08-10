@@ -1,0 +1,360 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "submit": "Enviar",
+    "back": "Atrás",
+    "close": "Cerrar",
+    "yes": "Sí",
+    "no": "No",
+    "confirm": "Confirmar",
+    "language": "Idioma"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "products": "Productos",
+    "orders": "Pedidos",
+    "chat": "Chat",
+    "profile": "Perfil",
+    "dashboard": "Panel",
+    "admin": "Admin",
+    "login": "Iniciar Sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar Sesión"
+  },
+  "home": {
+    "hero": {
+      "title": "Mercado Directo de Agricultores",
+      "subtitle": "Conéctate directamente con agricultores locales para productos frescos y de calidad",
+      "cta": "Comenzar a Comprar",
+      "learnMore": "Saber Más"
+    },
+    "features": {
+      "title": "¿Por qué elegir Mercado Directo de Agricultores?",
+      "fresh": {
+        "title": "Fresco de la Granja",
+        "description": "Obtén productos directamente de agricultores locales, asegurando máxima frescura"
+      },
+      "local": {
+        "title": "Apoya lo Local",
+        "description": "Apoya a tu comunidad agrícola local y reduce las millas de comida"
+      },
+      "quality": {
+        "title": "Calidad Garantizada",
+        "description": "Todos los agricultores están verificados y con control de calidad"
+      },
+      "direct": {
+        "title": "Conexión Directa",
+        "description": "Chatea directamente con agricultores sobre sus productos"
+      }
+    },
+    "categories": {
+      "title": "Explorar por Categoría",
+      "vegetables": "Verduras",
+      "fruits": "Frutas",
+      "grains": "Granos",
+      "dairy": "Lácteos",
+      "meat": "Carne",
+      "herbs": "Hierbas"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido de Vuelta",
+      "subtitle": "Inicia sesión en tu cuenta",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "rememberMe": "Recordarme",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "noAccount": "¿No tienes una cuenta?",
+      "signUp": "Regístrate",
+      "loginButton": "Iniciar Sesión"
+    },
+    "register": {
+      "title": "Crear Cuenta",
+      "subtitle": "Únete a Mercado Directo de Agricultores",
+      "name": "Nombre Completo",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "role": "Soy un",
+      "farmer": "Agricultor",
+      "buyer": "Comprador",
+      "phone": "Número de Teléfono",
+      "address": "Dirección",
+      "farmName": "Nombre de la Granja (para agricultores)",
+      "terms": "Acepto los términos y condiciones",
+      "registerButton": "Crear Cuenta",
+      "haveAccount": "¿Ya tienes una cuenta?",
+      "signIn": "Inicia sesión"
+    }
+  },
+  "upload": {
+    "title": "Subir Imágenes",
+    "uploading": "Subiendo...",
+    "dropHere": "Suelta archivos aquí",
+    "dragDropOrClick": "Arrastra y suelta imágenes aquí, o haz clic para seleccionar",
+    "supportedFormats": "Formatos soportados",
+    "maxSize": "Tamaño máximo",
+    "maxFiles": "Archivos máximos",
+    "processing": "Procesando imágenes...",
+    "errors": "Errores de Subida",
+    "fileTooLarge": "El archivo es demasiado grande",
+    "invalidType": "Tipo de archivo inválido",
+    "uploadFailed": "La subida falló",
+    "networkError": "Ocurrió un error de red"
+  },
+  "gallery": {
+    "noImages": "Aún no se han subido imágenes",
+    "view": "Ver imagen",
+    "delete": "Eliminar imagen",
+    "reorder": "Reordenar imágenes",
+    "showing": "Mostrando",
+    "of": "de",
+    "images": "imágenes",
+    "uploaded": "Subido"
+  },
+  "payments": {
+    "title": "Pago",
+    "orderTotal": "Total del Pedido",
+    "commissionNote": "Comisión de la plataforma: {{percentage}}%",
+    "selectMethod": "Seleccionar Método de Pago",
+    "proceedToPayment": "Proceder al Pago",
+    "processing": "Procesando...",
+    "comingSoon": "Próximamente",
+    "bankTransferDetails": "Detalles de Transferencia Bancaria",
+    "transactionId": "ID de Transacción",
+    "transactionIdPlaceholder": "Ingrese ID de transacción",
+    "bankName": "Nombre del Banco",
+    "bankNamePlaceholder": "Ingrese nombre del banco",
+    "accountNumber": "Número de Cuenta",
+    "accountNumberPlaceholder": "Ingrese número de cuenta",
+    "transferAmount": "Monto de Transferencia",
+    "errors": {
+      "noOrder": "No se encontró pedido",
+      "submissionFailed": "Falló el envío del pago"
+    },
+    "methods": {
+      "cod": "Pago Contra Entrega",
+      "codDesc": "Paga cuando recibas tu pedido",
+      "bankTransfer": "Transferencia Bancaria",
+      "bankTransferDesc": "Transfiere dinero directamente a cuenta bancaria",
+      "stripe": "Tarjeta de Crédito/Débito",
+      "stripeDesc": "Pago seguro en línea con Stripe",
+      "razorpay": "UPI y Pagos Digitales",
+      "razorpayDesc": "Paga usando UPI, tarjetas o billeteras digitales"
+    }
+  },
+  "subscriptions": {
+    "selectBillingCycle": "Seleccionar Ciclo de Facturación",
+    "mostPopular": "Más Popular",
+    "currentPlan": "Plan Actual",
+    "selected": "Seleccionado",
+    "selectPlan": "Seleccionar Plan",
+    "selectedPlanSummary": "Resumen del Plan Seleccionado",
+    "plan": "Plan",
+    "billingCycle": "Ciclo de Facturación",
+    "totalAmount": "Monto Total",
+    "save": "Ahorra {{percentage}}%",
+    "originalPrice": "Original: ₹{{price}}",
+    "billing": {
+      "monthly": "mes",
+      "quarterly": "trimestre",
+      "yearly": "año"
+    },
+    "plans": {
+      "basic": {
+        "name": "Plan Básico",
+        "description": "Perfecto para pequeños agricultores que comienzan"
+      },
+      "premium": {
+        "name": "Plan Premium",
+        "description": "Ideal para negocios agrícolas en crecimiento"
+      },
+      "enterprise": {
+        "name": "Plan Empresarial",
+        "description": "Para operaciones agrícolas a gran escala"
+      }
+    },
+    "features": {
+      "maxProducts": "Hasta {{count}} productos",
+      "maxImagesPerProduct": "Hasta {{count}} imágenes por producto",
+      "basicSupport": "Soporte básico al cliente",
+      "standardListing": "Listado estándar de productos",
+      "priorityListing": "Listado prioritario de productos",
+      "analytics": "Análisis de ventas e insights",
+      "marketingTools": "Herramientas de marketing y promociones",
+      "premiumSupport": "Soporte prioritario al cliente",
+      "advancedAnalytics": "Análisis avanzado e informes",
+      "advancedMarketingTools": "Herramientas avanzadas de marketing",
+      "dedicatedSupport": "Gerente de cuenta dedicado",
+      "customFeatures": "Características e integraciones personalizadas"
+    }
+  },
+  "products": {
+    "title": "Productos",
+    "searchPlaceholder": "Buscar productos...",
+    "filters": {
+      "title": "Filtros",
+      "category": "Categoría",
+      "priceRange": "Rango de Precio",
+      "location": "Ubicación",
+      "distance": "Distancia (km)",
+      "apply": "Aplicar Filtros",
+      "clear": "Limpiar Filtros"
+    },
+    "sort": {
+      "newest": "Más Reciente",
+      "oldest": "Más Antiguo",
+      "priceLow": "Precio: Menor a Mayor",
+      "priceHigh": "Precio: Mayor a Menor",
+      "distance": "Distancia",
+      "rating": "Calificación"
+    },
+    "product": {
+      "addToCart": "Agregar al Carrito",
+      "contactFarmer": "Contactar Agricultor",
+      "quantity": "Cantidad",
+      "unit": "Unidad",
+      "price": "Precio",
+      "available": "Disponible",
+      "harvestDate": "Fecha de Cosecha",
+      "description": "Descripción",
+      "farmer": "Agricultor",
+      "rating": "Calificación",
+      "reviews": "Reseñas"
+    },
+    "create": {
+      "title": "Agregar Nuevo Producto",
+      "subtitle": "Lista tus productos frescos",
+      "titleLabel": "Título del Producto",
+      "descriptionLabel": "Descripción",
+      "categoryLabel": "Categoría",
+      "priceLabel": "Precio por Unidad",
+      "quantityLabel": "Cantidad Disponible",
+      "unitLabel": "Unidad",
+      "imagesLabel": "Imágenes del Producto",
+      "harvestDateLabel": "Fecha de Cosecha",
+      "createButton": "Crear Producto"
+    }
+  },
+  "orders": {
+    "title": "Pedidos",
+    "status": {
+      "placed": "Realizado",
+      "confirmed": "Confirmado",
+      "packed": "Empacado",
+      "shipped": "Enviado",
+      "delivered": "Entregado",
+      "cancelled": "Cancelado"
+    },
+    "order": {
+      "orderId": "ID del Pedido",
+      "date": "Fecha del Pedido",
+      "total": "Total",
+      "status": "Estado",
+      "items": "Artículos",
+      "farmer": "Agricultor",
+      "buyer": "Comprador",
+      "address": "Dirección de Entrega",
+      "actions": "Acciones",
+      "viewDetails": "Ver Detalles",
+      "updateStatus": "Actualizar Estado",
+      "cancelOrder": "Cancelar Pedido"
+    },
+    "details": {
+      "title": "Detalles del Pedido",
+      "orderInfo": "Información del Pedido",
+      "items": "Artículos del Pedido",
+      "history": "Historial del Pedido",
+      "notes": "Notas",
+      "addNote": "Agregar Nota",
+      "updateStatus": "Actualizar Estado"
+    }
+  },
+  "chat": {
+    "title": "Mensajes",
+    "newMessage": "Nuevo Mensaje",
+    "searchChats": "Buscar chats...",
+    "noChats": "Aún no hay conversaciones",
+    "startChat": "Iniciar una conversación",
+    "message": {
+      "placeholder": "Escribe tu mensaje...",
+      "send": "Enviar",
+      "typing": "escribiendo...",
+      "online": "En línea",
+      "offline": "Desconectado",
+      "lastSeen": "Visto por última vez",
+      "unread": "mensajes no leídos"
+    }
+  },
+  "profile": {
+    "title": "Perfil",
+    "editProfile": "Editar Perfil",
+    "personalInfo": "Información Personal",
+    "contactInfo": "Información de Contacto",
+    "location": "Ubicación",
+    "verification": "Estado de Verificación",
+    "verified": "Verificado",
+    "unverified": "No Verificado",
+    "stats": {
+      "title": "Estadísticas",
+      "totalOrders": "Total de Pedidos",
+      "totalProducts": "Total de Productos",
+      "rating": "Calificación Promedio",
+      "reviews": "Total de Reseñas"
+    }
+  },
+  "admin": {
+    "title": "Panel de Administración",
+    "users": {
+      "title": "Usuarios",
+      "allUsers": "Todos los Usuarios",
+      "farmers": "Agricultores",
+      "buyers": "Compradores",
+      "verifyFarmer": "Verificar Agricultor",
+      "unverifyFarmer": "Desverificar Agricultor"
+    },
+    "orders": {
+      "title": "Pedidos",
+      "allOrders": "Todos los Pedidos",
+      "pending": "Pendiente",
+      "completed": "Completado",
+      "cancelled": "Cancelado"
+    },
+    "products": {
+      "title": "Productos",
+      "allProducts": "Todos los Productos",
+      "active": "Activo",
+      "inactive": "Inactivo"
+    }
+  },
+  "errors": {
+    "general": "Algo salió mal. Por favor, inténtalo de nuevo.",
+    "network": "Error de red. Por favor, verifica tu conexión.",
+    "unauthorized": "No estás autorizado para realizar esta acción.",
+    "notFound": "El recurso solicitado no fue encontrado.",
+    "validation": "Por favor, verifica tu entrada e inténtalo de nuevo.",
+    "server": "Error del servidor. Por favor, inténtalo más tarde."
+  },
+  "success": {
+    "profileUpdated": "Perfil actualizado exitosamente",
+    "productCreated": "Producto creado exitosamente",
+    "productUpdated": "Producto actualizado exitosamente",
+    "productDeleted": "Producto eliminado exitosamente",
+    "orderPlaced": "Pedido realizado exitosamente",
+    "orderUpdated": "Pedido actualizado exitosamente",
+    "messageSent": "Mensaje enviado exitosamente",
+    "farmerVerified": "Agricultor verificado exitosamente"
+  }
+}
