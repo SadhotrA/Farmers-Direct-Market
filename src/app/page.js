@@ -1,12 +1,15 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Search, MapPin, Truck, Users, Shield, Star } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../components/LanguageSwitcher'
+import Link from 'next/link'
 
 export default function HomePage() {
   const { t } = useTranslation()
+  const router = useRouter()
   const [searchQuery, setSearchQuery] = useState('')
   const [location, setLocation] = useState('')
   const [message, setMessage] = useState('')
@@ -15,6 +18,8 @@ export default function HomePage() {
     e.preventDefault()
     setMessage(`Searching for: ${searchQuery} in: ${location}`)
     console.log('Searching for:', searchQuery, 'in:', location)
+    // Navigate to products page with search query
+    router.push(`/products?search=${encodeURIComponent(searchQuery)}&location=${encodeURIComponent(location)}`)
   }
 
   const handleButtonClick = (action) => {
@@ -24,32 +29,33 @@ export default function HomePage() {
 
   const handleLogin = () => {
     handleButtonClick('Login')
-    // TODO: Navigate to login page
+    router.push('/login')
   }
 
   const handleRegister = () => {
     handleButtonClick('Register')
-    // TODO: Navigate to register page
+    router.push('/register')
   }
 
   const handleStartShopping = () => {
     handleButtonClick('Start Shopping')
-    // TODO: Navigate to products page
+    router.push('/products')
   }
 
   const handleLearnMore = () => {
     handleButtonClick('Learn More')
-    // TODO: Navigate to about page
+    // Navigate to about page or scroll to features section
+    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   const handleRegisterFarmer = () => {
     handleButtonClick('Register as Farmer')
-    // TODO: Navigate to farmer registration
+    router.push('/register?role=farmer')
   }
 
   const handleStartShoppingCTA = () => {
     handleButtonClick('Start Shopping CTA')
-    // TODO: Navigate to products page
+    router.push('/products')
   }
 
   return (
@@ -73,7 +79,17 @@ export default function HomePage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <h1 className="text-2xl font-bold text-green-600">FarmDirect</h1>
+                <Link href="/" className="text-2xl font-bold text-green-600">
+                  FarmDirect
+                </Link>
+              </div>
+              <div className="ml-8">
+                <Link 
+                  href="/test-buttons" 
+                  className="text-sm text-gray-600 hover:text-green-600 underline"
+                >
+                  Test Buttons
+                </Link>
               </div>
             </div>
             <div className="hidden md:block">
