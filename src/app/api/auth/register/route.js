@@ -1,104 +1,122 @@
 import { NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import { User } from '@/models';
-import { hashPassword, generateTokens } from '@/lib/auth';
+import { User } from '../../../../models';
+import { generateTokens, hashUserPassword } from '../../../../lib/auth';
+import { validate, sanitizeInput, validationSchemas } from '../../../../lib/security';
 
 export async function POST(request) {
   try {
-    await connectDB();
-    
+    // Parse request body
     const body = await request.json();
-    const { name, email, password, role, phone, address, farmName, location } = body;
     
-    // Validation
-    if (!name || !email || !password || !role) {
-      return NextResponse.json(
-        { error: 'Name, email, password, and role are required' },
-        { status: 400 }
-      );
+    // Apply input sanitization
+    const sanitizedBody = sanitizeInput({ body }).body;
+    
+    // Validate input using Joi schema
+    const { error, value } = validationSchemas.userRegistration.validate(sanitizedBody, {
+      abortEarly: false,
+      stripUnknown: true
+    });
+    
+    if (error) {
+      const errors = error.details.map(detail => ({
+        field: detail.path.join('.'),
+        message: detail.message
+      }));
+      
+      return NextResponse.json({
+        success: false,
+        message: 'Validation failed',
+        errors
+      }, { status: 400 });
     }
-    
-    if (!['farmer', 'buyer', 'admin'].includes(role)) {
-      return NextResponse.json(
-        { error: 'Invalid role. Must be farmer, buyer, or admin' },
-        { status: 400 }
-      );
-    }
-    
-    if (password.length < 6) {
-      return NextResponse.json(
-        { error: 'Password must be at least 6 characters long' },
-        { status: 400 }
-      );
-    }
-    
+
+    const { name, email, password, role, phone, address, farmName } = value;
+
     // Check if user already exists
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
-      return NextResponse.json(
-        { error: 'User with this email already exists' },
-        { status: 409 }
-      );
+      return NextResponse.json({
+        success: false,
+        message: 'User with this email already exists'
+      }, { status: 409 });
     }
-    
+
     // Hash password
-    const passwordHash = await hashPassword(password);
-    
-    // Create user
+    const passwordHash = await hashUserPassword(password);
+
+    // Create user object
     const userData = {
       name,
       email: email.toLowerCase(),
       passwordHash,
       role,
-      phone,
-      address,
-      isVerified: role === 'buyer' ? true : false // Farmers need verification
+      phone: phone || undefined,
+      address: address || undefined,
+      farmName: role === 'farmer' ? farmName : undefined,
+      isVerified: role === 'buyer', // Buyers are auto-verified, farmers need verification
+      createdAt: new Date()
     };
-    
-    // Add farm name for farmers
-    if (role === 'farmer' && farmName) {
-      userData.farmName = farmName;
-    }
-    
-    // Add location if provided
-    if (location && location.coordinates) {
-      userData.location = {
-        type: 'Point',
-        coordinates: location.coordinates
-      };
-    }
-    
+
+    // Create user
     const user = new User(userData);
     await user.save();
-    
+
     // Generate tokens
     const { accessToken, refreshToken } = generateTokens(user._id, user.role);
-    
-    // Return user data (without password) and tokens
-    const userResponse = user.toObject();
-    delete userResponse.passwordHash;
-    
+
+    // Return success response (without password hash)
+    const userResponse = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      phone: user.phone,
+      address: user.address,
+      farmName: user.farmName,
+      isVerified: user.isVerified,
+      createdAt: user.createdAt
+    };
+
     return NextResponse.json({
+      success: true,
       message: 'User registered successfully',
-      user: userResponse,
-      accessToken,
-      refreshToken
+      data: {
+        user: userResponse,
+        tokens: {
+          accessToken,
+          refreshToken
+        }
+      }
     }, { status: 201 });
-    
+
   } catch (error) {
     console.error('Registration error:', error);
     
-    if (error.name === 'ValidationError') {
-      const errors = Object.values(error.errors).map(err => err.message);
-      return NextResponse.json(
-        { error: 'Validation failed', details: errors },
-        { status: 400 }
-      );
+    // Handle specific errors
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyValue)[0];
+      return NextResponse.json({
+        success: false,
+        message: `${field} already exists`
+      }, { status: 409 });
     }
-    
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+
+    if (error.name === 'ValidationError') {
+      const errors = Object.values(error.errors).map(e => ({
+        field: e.path,
+        message: e.message
+      }));
+      
+      return NextResponse.json({
+        success: false,
+        message: 'Validation Error',
+        errors
+      }, { status: 400 });
+    }
+
+    return NextResponse.json({
+      success: false,
+      message: 'Internal server error'
+    }, { status: 500 });
   }
 }
