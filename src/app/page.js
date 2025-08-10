@@ -9,15 +9,64 @@ export default function HomePage() {
   const { t } = useTranslation()
   const [searchQuery, setSearchQuery] = useState('')
   const [location, setLocation] = useState('')
+  const [message, setMessage] = useState('')
 
   const handleSearch = (e) => {
     e.preventDefault()
-    // TODO: Implement search functionality
+    setMessage(`Searching for: ${searchQuery} in: ${location}`)
     console.log('Searching for:', searchQuery, 'in:', location)
+  }
+
+  const handleButtonClick = (action) => {
+    setMessage(`${action} button clicked!`)
+    console.log(`${action} button clicked!`)
+  }
+
+  const handleLogin = () => {
+    handleButtonClick('Login')
+    // TODO: Navigate to login page
+  }
+
+  const handleRegister = () => {
+    handleButtonClick('Register')
+    // TODO: Navigate to register page
+  }
+
+  const handleStartShopping = () => {
+    handleButtonClick('Start Shopping')
+    // TODO: Navigate to products page
+  }
+
+  const handleLearnMore = () => {
+    handleButtonClick('Learn More')
+    // TODO: Navigate to about page
+  }
+
+  const handleRegisterFarmer = () => {
+    handleButtonClick('Register as Farmer')
+    // TODO: Navigate to farmer registration
+  }
+
+  const handleStartShoppingCTA = () => {
+    handleButtonClick('Start Shopping CTA')
+    // TODO: Navigate to products page
   }
 
   return (
     <div className="min-h-screen">
+      {/* Message Display */}
+      {message && (
+        <div className="fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded z-50">
+          {message}
+          <button 
+            onClick={() => setMessage('')}
+            className="ml-2 text-green-700 hover:text-green-900"
+          >
+            ×
+          </button>
+        </div>
+      )}
+
       {/* Navigation */}
       <nav className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,8 +80,18 @@ export default function HomePage() {
               <div className="ml-10 flex items-baseline space-x-4">
                 <a href="#features" className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium">{t('home.features.title')}</a>
                 <a href="#about" className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium">About</a>
-                <button className="btn-secondary">{t('navigation.login')}</button>
-                <button className="btn-primary">{t('navigation.register')}</button>
+                <button 
+                  onClick={handleLogin}
+                  className="btn-secondary"
+                >
+                  {t('navigation.login')}
+                </button>
+                <button 
+                  onClick={handleRegister}
+                  className="btn-primary"
+                >
+                  {t('navigation.register')}
+                </button>
                 <LanguageSwitcher />
               </div>
             </div>
@@ -81,10 +140,16 @@ export default function HomePage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="btn-primary text-lg px-8 py-3">
+              <button 
+                onClick={handleStartShopping}
+                className="btn-primary text-lg px-8 py-3"
+              >
                 {t('home.hero.cta')}
               </button>
-              <button className="btn-secondary text-lg px-8 py-3">
+              <button 
+                onClick={handleLearnMore}
+                className="btn-secondary text-lg px-8 py-3"
+              >
                 {t('home.hero.learnMore')}
               </button>
             </div>
@@ -202,10 +267,16 @@ export default function HomePage() {
             Join thousands of farmers and buyers who are already benefiting from direct connections
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="btn-primary text-lg px-8 py-3">
+            <button 
+              onClick={handleRegisterFarmer}
+              className="btn-primary text-lg px-8 py-3"
+            >
               Register as Farmer
             </button>
-            <button className="btn-secondary text-lg px-8 py-3">
+            <button 
+              onClick={handleStartShoppingCTA}
+              className="btn-secondary text-lg px-8 py-3"
+            >
               Start Shopping
             </button>
           </div>

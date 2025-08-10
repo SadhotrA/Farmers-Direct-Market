@@ -20,6 +20,15 @@
     "confirm": "Confirm",
     "language": "Language"
   },
+  "products": {
+    "searchPlaceholder": "Search for products...",
+    "filters": {
+      "location": "Enter your location",
+      "category": "Category",
+      "priceRange": "Price Range",
+      "sortBy": "Sort By"
+    }
+  },
   "navigation": {
     "home": "Home",
     "products": "Products",
