@@ -1,11 +1,21 @@
 const jwt = require('jsonwebtoken');
-const { hashPassword, comparePassword } = require('./security');
+const bcrypt = require('bcryptjs');
 
 // JWT configuration
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production';
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'your-super-secret-refresh-key-change-in-production';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '15m';
 const JWT_REFRESH_EXPIRES_IN = process.env.JWT_REFRESH_EXPIRES_IN || '7d';
+
+// Password hashing functions
+const hashPassword = async (password) => {
+  const saltRounds = 12;
+  return await bcrypt.hash(password, saltRounds);
+};
+
+const comparePassword = async (password, hash) => {
+  return await bcrypt.compare(password, hash);
+};
 
 // Generate JWT tokens
 const generateTokens = (userId, role) => {
@@ -43,12 +53,12 @@ const refreshToken = (refreshToken) => {
   }
 };
 
-// Password hashing (using bcrypt from security.js)
+// Password hashing wrapper functions
 const hashUserPassword = async (password) => {
   return await hashPassword(password);
 };
 
-// Password comparison (using bcrypt from security.js)
+// Password comparison wrapper functions
 const compareUserPassword = async (password, hash) => {
   return await comparePassword(password, hash);
 };

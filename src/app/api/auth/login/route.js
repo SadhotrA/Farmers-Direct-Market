@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { User } from '../../../../models';
 import { generateTokens, compareUserPassword } from '../../../../lib/auth';
-import { validationSchemas, sanitizeInput } from '../../../../lib/security';
+import { validationSchemas, sanitizeInput } from '../../../../lib/validation';
 
 export async function POST(request) {
   try {
@@ -9,7 +9,7 @@ export async function POST(request) {
     const body = await request.json();
     
     // Apply input sanitization
-    const sanitizedBody = sanitizeInput({ body }).body;
+    const sanitizedBody = sanitizeInput(body);
     
     // Validate input using Joi schema
     const { error, value } = validationSchemas.userLogin.validate(sanitizedBody, {

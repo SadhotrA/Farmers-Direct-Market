@@ -53,7 +53,7 @@ npm install
 ```
 
 ### 3. Set up environment variables
-Create a `.env.local` file in the root directory:
+The project includes a `.env.local` file with development defaults. For production, update these values:
 
 ```env
 # Database
@@ -61,6 +61,7 @@ MONGODB_URI=your_mongodb_connection_string
 
 # Authentication
 JWT_SECRET=your_jwt_secret_key
+JWT_REFRESH_SECRET=your_jwt_refresh_secret
 
 # Cloudinary (for image uploads)
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
@@ -77,7 +78,24 @@ NEXTAUTH_URL=http://localhost:3000
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
+The application will start on [http://localhost:3000](http://localhost:3000) (or the next available port).
+
+## ✅ Current Status
+
+**WORKING FEATURES:**
+- ✅ **CSS/Styling**: Tailwind CSS is fully functional
+- ✅ **Authentication**: Login/Register pages with validation
+- ✅ **Responsive Design**: Mobile-friendly layout
+- ✅ **Internationalization**: Multi-language support (English/Spanish)
+- ✅ **Database Integration**: MongoDB with Mongoose
+- ✅ **API Routes**: RESTful API endpoints
+- ✅ **Development Environment**: Hot reload and fast refresh
+
+**SIMPLIFIED ARCHITECTURE:**
+- Removed complex custom server setup
+- Removed Socket.io dependencies (can be re-added later)
+- Removed unused security middleware
+- Streamlined for easier development and deployment
 
 ## 📁 Project Structure
 

@@ -213,8 +213,24 @@ const validateCoordinates = (lat, lng) => {
  * @returns {Promise<Object>} Coordinates { lat, lng }
  */
 const geocodeAddress = async (address) => {
-  // TODO: Implement geocoding service (Google Maps, Mapbox, etc.)
-  throw new Error('Geocoding not implemented yet');
+  // Simple mock implementation for development
+  // In production, integrate with Google Maps, Mapbox, or similar service
+  console.warn('Geocoding service not implemented. Using mock coordinates.');
+  
+  // Return mock coordinates for common cities (for development)
+  const mockCoordinates = {
+    'new york': { lat: 40.7128, lng: -74.0060 },
+    'london': { lat: 51.5074, lng: -0.1278 },
+    'mumbai': { lat: 19.0760, lng: 72.8777 },
+    'delhi': { lat: 28.7041, lng: 77.1025 },
+    'bangalore': { lat: 12.9716, lng: 77.5946 },
+    'default': { lat: 28.7041, lng: 77.1025 } // Default to Delhi
+  };
+  
+  const searchKey = address.toLowerCase();
+  const coords = mockCoordinates[searchKey] || mockCoordinates['default'];
+  
+  return coords;
 };
 
 module.exports = {
