@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Link from 'next/link'
-import { ArrowLeft, User, Mail, Lock, Phone, MapPin } from 'lucide-react'
+import { ArrowLeft, User, Mail, Lock, Phone, MapPin, Eye, EyeOff, CheckCircle, XCircle } from 'lucide-react'
 
 export default function RegisterPage() {
   const { t } = useTranslation()
@@ -18,22 +18,112 @@ export default function RegisterPage() {
     farmName: ''
   })
   const [message, setMessage] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [errors, setErrors] = useState({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Password strength validation
+  const validatePassword = (password) => {
+    const checks = {
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /\d/.test(password),
+      special: /[@$!%*?&]/.test(password)
+    }
+    return checks
+  }
+
+  const passwordChecks = validatePassword(formData.password)
+  const isPasswordValid = Object.values(passwordChecks).every(Boolean)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsSubmitting(true)
+    setErrors({})
+
+    // Client-side validation
+    const newErrors = {}
+    
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required'
+    }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email is invalid'
+    }
+    
+    if (!isPasswordValid) {
+      newErrors.password = 'Password does not meet requirements'
+    }
+    
     if (formData.password !== formData.confirmPassword) {
-      setMessage('Passwords do not match!')
+      newErrors.confirmPassword = 'Passwords do not match'
+    }
+    
+    if (formData.role === 'farmer' && !formData.farmName.trim()) {
+      newErrors.farmName = 'Farm name is required for farmers'
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      setIsSubmitting(false)
       return
     }
-    setMessage('Registration functionality will be implemented here!')
-    console.log('Registration attempt:', formData)
+
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setMessage('Registration successful! Redirecting to login...')
+        // Redirect to login after 2 seconds
+        setTimeout(() => {
+          window.location.href = '/login'
+        }, 2000)
+      } else {
+        if (data.errors) {
+          const serverErrors = {}
+          data.errors.forEach(error => {
+            serverErrors[error.field] = error.message
+          })
+          setErrors(serverErrors)
+        } else {
+          setMessage(data.message || 'Registration failed')
+        }
+      }
+    } catch (error) {
+      console.error('Registration error:', error)
+      setMessage('Network error. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }))
+    }
   }
 
   return (
@@ -53,7 +143,11 @@ export default function RegisterPage() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           {message && (
-            <div className="mb-4 bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+            <div className={`mb-4 px-4 py-3 rounded ${
+              message.includes('successful') 
+                ? 'bg-green-100 border border-green-400 text-green-700' 
+                : 'bg-red-100 border border-red-400 text-red-700'
+            }`}>
               {message}
             </div>
           )}
@@ -73,10 +167,13 @@ export default function RegisterPage() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                  className={`appearance-none block w-full pl-10 pr-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                    errors.name ? 'border-red-300' : 'border-gray-300'
+                  }`}
                   placeholder="Enter your full name"
                 />
               </div>
+              {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
             </div>
 
             <div>
@@ -93,10 +190,13 @@ export default function RegisterPage() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                  className={`appearance-none block w-full pl-10 pr-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                    errors.email ? 'border-red-300' : 'border-gray-300'
+                  }`}
                   placeholder="Enter your email"
                 />
               </div>
+              {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
             </div>
 
             <div>
@@ -130,10 +230,13 @@ export default function RegisterPage() {
                     type="text"
                     value={formData.farmName}
                     onChange={handleChange}
-                    className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                    className={`appearance-none block w-full pl-10 pr-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                      errors.farmName ? 'border-red-300' : 'border-gray-300'
+                    }`}
                     placeholder="Enter your farm name"
                   />
                 </div>
+                {errors.farmName && <p className="mt-1 text-sm text-red-600">{errors.farmName}</p>}
               </div>
             )}
 
@@ -150,7 +253,7 @@ export default function RegisterPage() {
                   autoComplete="tel"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   placeholder="Enter your phone number"
                 />
               </div>
@@ -169,7 +272,7 @@ export default function RegisterPage() {
                   autoComplete="street-address"
                   value={formData.address}
                   onChange={handleChange}
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   placeholder="Enter your address"
                 />
               </div>
@@ -184,15 +287,62 @@ export default function RegisterPage() {
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   autoComplete="new-password"
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                  className={`appearance-none block w-full pl-10 pr-10 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                    errors.password ? 'border-red-300' : 'border-gray-300'
+                  }`}
                   placeholder="Enter your password"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
               </div>
+              
+              {/* Password strength indicator */}
+              {formData.password && (
+                <div className="mt-2 space-y-1">
+                  <div className="flex items-center text-sm">
+                    {passwordChecks.length ? <CheckCircle className="h-4 w-4 text-green-500 mr-2" /> : <XCircle className="h-4 w-4 text-red-500 mr-2" />}
+                    <span className={passwordChecks.length ? 'text-green-600' : 'text-red-600'}>
+                      At least 8 characters
+                    </span>
+                  </div>
+                  <div className="flex items-center text-sm">
+                    {passwordChecks.uppercase ? <CheckCircle className="h-4 w-4 text-green-500 mr-2" /> : <XCircle className="h-4 w-4 text-red-500 mr-2" />}
+                    <span className={passwordChecks.uppercase ? 'text-green-600' : 'text-red-600'}>
+                      One uppercase letter
+                    </span>
+                  </div>
+                  <div className="flex items-center text-sm">
+                    {passwordChecks.lowercase ? <CheckCircle className="h-4 w-4 text-green-500 mr-2" /> : <XCircle className="h-4 w-4 text-red-500 mr-2" />}
+                    <span className={passwordChecks.lowercase ? 'text-green-600' : 'text-red-600'}>
+                      One lowercase letter
+                    </span>
+                  </div>
+                  <div className="flex items-center text-sm">
+                    {passwordChecks.number ? <CheckCircle className="h-4 w-4 text-green-500 mr-2" /> : <XCircle className="h-4 w-4 text-red-500 mr-2" />}
+                    <span className={passwordChecks.number ? 'text-green-600' : 'text-red-600'}>
+                      One number
+                    </span>
+                  </div>
+                  <div className="flex items-center text-sm">
+                    {passwordChecks.special ? <CheckCircle className="h-4 w-4 text-green-500 mr-2" /> : <XCircle className="h-4 w-4 text-red-500 mr-2" />}
+                    <span className={passwordChecks.special ? 'text-green-600' : 'text-red-600'}>
+                      One special character (@$!%*?&)
+                    </span>
+                  </div>
+                </div>
+              )}
+              
+              {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
             </div>
 
             <div>
@@ -204,15 +354,25 @@ export default function RegisterPage() {
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type="password"
+                  type={showConfirmPassword ? 'text' : 'password'}
                   autoComplete="new-password"
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500"
+                  className={`appearance-none block w-full pl-10 pr-10 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                    errors.confirmPassword ? 'border-red-300' : 'border-gray-300'
+                  }`}
                   placeholder="Confirm your password"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
               </div>
+              {errors.confirmPassword && <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>}
             </div>
 
             <div className="flex items-center">
@@ -231,9 +391,14 @@ export default function RegisterPage() {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                disabled={isSubmitting || !isPasswordValid}
+                className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${
+                  isSubmitting || !isPasswordValid
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-green-600 hover:bg-green-700'
+                }`}
               >
-                {t('auth.register.registerButton')}
+                {isSubmitting ? 'Creating Account...' : t('auth.register.registerButton')}
               </button>
             </div>
           </form>
