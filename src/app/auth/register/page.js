@@ -20,6 +20,7 @@ export default function RegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [validationErrors, setValidationErrors] = useState([])
   const router = useRouter()
 
   const handleChange = (e) => {
@@ -32,7 +33,8 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    setError('')
+  setError('')
+  setValidationErrors([])
 
     // Validation
     if (formData.password !== formData.confirmPassword) {
@@ -67,20 +69,30 @@ export default function RegisterPage() {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Registration failed')
+        // Show validation errors if present
+        if (data.errors && Array.isArray(data.errors)) {
+          setValidationErrors(data.errors)
+          setError(data.message || 'Registration failed')
+        } else {
+          setError(data.message || data.error || 'Registration failed')
+        }
+        setLoading(false)
+        return
       }
 
-      // Store token in localStorage
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('user', JSON.stringify(data.user))
-
-      // Redirect based on user role
-      if (data.user.role === 'farmer') {
-        router.push('/farmer/dashboard')
+      // Store token in localStorage (fix: backend returns tokens inside data.tokens)
+      if (data.data && data.data.tokens && data.data.user) {
+        localStorage.setItem('token', data.data.tokens.accessToken)
+        localStorage.setItem('user', JSON.stringify(data.data.user))
+        // Redirect based on user role
+        if (data.data.user.role === 'farmer') {
+          router.push('/farmer/dashboard')
+        } else {
+          router.push('/buyer/dashboard')
+        }
       } else {
-        router.push('/buyer/dashboard')
+        setError('Registration succeeded but response was invalid.')
       }
-
     } catch (error) {
       setError(error.message)
     } finally {
@@ -108,9 +120,20 @@ export default function RegisterPage() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="card py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-                {error}
+            {(error || validationErrors.length > 0) && (
+              <div className="mb-2">
+                {error && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-2">
+                    {error}
+                  </div>
+                )}
+                {validationErrors.length > 0 && (
+                  <ul className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-2 list-disc list-inside">
+                    {validationErrors.map((err, idx) => (
+                      <li key={idx}>{err.field ? `${err.field}: ` : ''}{err.message}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             )}
 

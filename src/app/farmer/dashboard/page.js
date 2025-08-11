@@ -25,6 +25,7 @@ export default function FarmerDashboard() {
     totalRevenue: 0,
     averageRating: 0
   })
+  const [error, setError] = useState('')
 
   useEffect(() => {
     // Get user from localStorage
@@ -32,77 +33,52 @@ export default function FarmerDashboard() {
     if (userData) {
       setUser(JSON.parse(userData))
     }
-
-    // Load mock data
     loadDashboardData()
   }, [])
 
-  const loadDashboardData = () => {
-    // Mock products data
-    const mockProducts = [
-      {
-        id: '1',
-        name: 'Fresh Tomatoes',
-        price: 2.50,
-        quantity: 100,
-        unit: 'kg',
-        category: 'vegetables',
-        rating: 4.5,
-        reviews: 12,
-        isAvailable: true,
-        createdAt: '2024-01-15'
-      },
-      {
-        id: '2',
-        name: 'Sweet Corn',
-        price: 1.80,
-        quantity: 50,
-        unit: 'dozen',
-        category: 'vegetables',
-        rating: 4.2,
-        reviews: 8,
-        isAvailable: true,
-        createdAt: '2024-01-10'
+  // Fetch products and orders for the logged-in farmer
+  const loadDashboardData = async () => {
+    try {
+      setError('');
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('Not authenticated. Please log in again.');
+        return;
       }
-    ]
+      // Fetch products (filter by farmer)
+      const productsRes = await fetch('/api/products?limit=100', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const productsData = await productsRes.json();
+      if (!productsRes.ok) throw new Error(productsData.error || 'Failed to fetch products');
+      // Only show products belonging to this farmer
+      const farmerId = JSON.parse(localStorage.getItem('user'))?._id;
+      const farmerProducts = (productsData.products || []).filter(p => p.farmer && (p.farmer._id === farmerId || p.farmer === farmerId));
+      setProducts(farmerProducts);
 
-    // Mock orders data
-    const mockOrders = [
-      {
-        id: '1',
-        productName: 'Fresh Tomatoes',
-        buyerName: 'Restaurant ABC',
-        quantity: 20,
-        total: 50.00,
-        status: 'pending',
-        orderDate: '2024-01-20',
-        deliveryDate: '2024-01-22'
-      },
-      {
-        id: '2',
-        productName: 'Sweet Corn',
-        buyerName: 'Market XYZ',
-        quantity: 10,
-        total: 18.00,
-        status: 'delivered',
-        orderDate: '2024-01-18',
-        deliveryDate: '2024-01-20'
-      }
-    ]
+      // Fetch orders (for this farmer)
+      const ordersRes = await fetch('/api/orders?limit=100', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const ordersData = await ordersRes.json();
+      if (!ordersRes.ok) throw new Error(ordersData.error || 'Failed to fetch orders');
+      // Only show orders for this farmer
+      const farmerOrders = (ordersData.orders || []).filter(o => o.farmer && (o.farmer._id === farmerId || o.farmer === farmerId));
+      setOrders(farmerOrders);
 
-    setProducts(mockProducts)
-    setOrders(mockOrders)
+      // Calculate stats
+      const totalRevenue = farmerOrders.reduce((sum, order) => sum + (order.subtotal || 0), 0);
+      const averageRating = farmerProducts.length > 0 ? (farmerProducts.reduce((sum, product) => sum + (product.rating || 0), 0) / farmerProducts.length) : 0;
 
-    // Calculate stats
-    const totalRevenue = mockOrders.reduce((sum, order) => sum + order.total, 0)
-    const averageRating = mockProducts.reduce((sum, product) => sum + product.rating, 0) / mockProducts.length
-
-    setStats({
-      totalProducts: mockProducts.length,
-      totalOrders: mockOrders.length,
-      totalRevenue,
-      averageRating: averageRating.toFixed(1)
-    })
+      setStats({
+        totalProducts: farmerProducts.length,
+        totalOrders: farmerOrders.length,
+        totalRevenue,
+        averageRating: Number(averageRating.toFixed(1))
+      });
+    } catch (err) {
+      setError(err.message || 'Failed to load dashboard data');
+    }
   }
 
   const getStatusColor = (status) => {
@@ -116,14 +92,31 @@ export default function FarmerDashboard() {
     }
   }
 
-  if (!user) {
+  if (user === null) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900">Loading...</h2>
         </div>
       </div>
-    )
+    );
+  }
+  if (!user || !user.name) {
+    // If user is not found or malformed, redirect to login
+    if (typeof window !== 'undefined') {
+      window.location.href = '/login';
+    }
+    return null;
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-red-600">{error}</h2>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -138,7 +131,10 @@ export default function FarmerDashboard() {
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-gray-700">Welcome, {user.name}</span>
-              <button className="btn-secondary">Logout</button>
+              <button className="btn-secondary" onClick={() => {
+                localStorage.removeItem('user');
+                window.location.href = '/login';
+              }}>Logout</button>
             </div>
           </div>
         </div>
