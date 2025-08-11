@@ -14,7 +14,10 @@
     "test:e2e": "cypress run",
     "test:e2e:open": "cypress open",
     "test:all": "npm run test && npm run test:e2e",
-    "test:ci": "npm run test:coverage && npm run test:e2e -- --headless"
+    "test:ci": "npm run test:coverage && npm run test:e2e -- --headless",
+    "backup": "node scripts/backup.js",
+    "backup:clean": "node -e \"require('./scripts/backup.js').cleanOldBackups()\"",
+    "health": "curl -f http://localhost:3000/api/health || exit 1"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -35,7 +38,8 @@
     "react-dropzone": "^14.2.3",
     "react-i18next": "^13.5.0",
     "socket.io": "^4.7.4",
-    "socket.io-client": "^4.7.4"
+    "socket.io-client": "^4.7.4",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.5",
