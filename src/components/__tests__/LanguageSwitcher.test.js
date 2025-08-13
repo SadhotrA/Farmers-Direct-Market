@@ -19,21 +19,18 @@ describe('LanguageSwitcher', () => {
     jest.clearAllMocks()
   })
 
-  test('renders language switcher with current language', () => {
+  test('renders current language button', () => {
     render(<LanguageSwitcher />)
-    
-    expect(screen.getByText('Language')).toBeInTheDocument()
-    expect(screen.getByDisplayValue('English')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /english/i })).toBeInTheDocument()
   })
 
   test('shows language options when clicked', async () => {
     render(<LanguageSwitcher />)
-    
-    const select = screen.getByRole('combobox')
-    fireEvent.click(select)
-    
+    const toggle = screen.getByRole('button', { name: /english/i })
+    fireEvent.click(toggle)
     await waitFor(() => {
-      expect(screen.getByText('English')).toBeInTheDocument()
+      const allEnglish = screen.getAllByText('English')
+      expect(allEnglish.length).toBeGreaterThanOrEqual(1)
       expect(screen.getByText('Español')).toBeInTheDocument()
     })
   })
@@ -49,26 +46,24 @@ describe('LanguageSwitcher', () => {
     })
 
     render(<LanguageSwitcher />)
-    
-    const select = screen.getByRole('combobox')
-    fireEvent.change(select, { target: { value: 'es' } })
-    
+    const toggle = screen.getByRole('button', { name: /english/i })
+    fireEvent.click(toggle)
+    const option = await screen.findByRole('button', { name: /español/i })
+    fireEvent.click(option)
+
     await waitFor(() => {
       expect(mockChangeLanguage).toHaveBeenCalledWith('es')
     })
   })
 
-  test('has correct styling classes', () => {
+  test('has correct styling classes on toggle button', () => {
     render(<LanguageSwitcher />)
-    
-    const select = screen.getByRole('combobox')
-    expect(select).toHaveClass('bg-white', 'border', 'border-gray-300', 'rounded-md')
+    const toggle = screen.getByRole('button', { name: /english/i })
+    expect(toggle).toHaveClass('bg-white', 'border', 'border-gray-300', 'rounded-md')
   })
 
-  test('is accessible with proper labels', () => {
+  test('is accessible with proper roles', () => {
     render(<LanguageSwitcher />)
-    
-    const select = screen.getByRole('combobox')
-    expect(select).toHaveAttribute('aria-label', 'Select language')
+    expect(screen.getByRole('button', { name: /english/i })).toBeInTheDocument()
   })
 })

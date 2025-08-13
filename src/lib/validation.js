@@ -5,7 +5,11 @@ export const sanitizeInput = (data) => {
   if (typeof data === 'string') {
     return data.trim();
   }
-  
+
+  if (Array.isArray(data)) {
+    return data.map((item) => sanitizeInput(item));
+  }
+
   if (typeof data === 'object' && data !== null) {
     const sanitized = {};
     for (const [key, value] of Object.entries(data)) {
@@ -13,7 +17,7 @@ export const sanitizeInput = (data) => {
     }
     return sanitized;
   }
-  
+
   return data;
 };
 
@@ -24,10 +28,15 @@ export const validationSchemas = {
       'string.email': 'Please enter a valid email address',
       'any.required': 'Email is required'
     }),
-    password: Joi.string().min(6).required().messages({
-      'string.min': 'Password must be at least 6 characters long',
-      'any.required': 'Password is required'
-    })
+    password: Joi.string()
+      .min(8)
+      .pattern(/^(?=.*[A-Za-z])(?=.*\d).+$/)
+      .required()
+      .messages({
+        'string.min': 'Password must be at least 8 characters long',
+        'string.pattern.base': 'Password must contain at least one letter and one number',
+        'any.required': 'Password is required'
+      })
   }),
 
   userRegistration: Joi.object({
@@ -40,10 +49,22 @@ export const validationSchemas = {
       'string.email': 'Please enter a valid email address',
       'any.required': 'Email is required'
     }),
-    password: Joi.string().min(6).required().messages({
-      'string.min': 'Password must be at least 6 characters long',
-      'any.required': 'Password is required'
-    }),
+    password: Joi.string()
+      .min(8)
+      .pattern(/^(?=.*[A-Za-z])(?=.*\d).+$/)
+      .required()
+      .messages({
+        'string.min': 'Password must be at least 8 characters long',
+        'string.pattern.base': 'Password must contain at least one letter and one number',
+        'any.required': 'Password is required'
+      }),
+    confirmPassword: Joi.string()
+      .valid(Joi.ref('password'))
+      .required()
+      .messages({
+        'any.only': 'Passwords must match',
+        'any.required': 'Confirm password is required'
+      }),
     role: Joi.string().valid('farmer', 'buyer').required().messages({
       'any.only': 'Role must be either farmer or buyer',
       'any.required': 'Role is required'

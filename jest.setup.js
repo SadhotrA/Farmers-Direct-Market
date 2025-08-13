@@ -45,13 +45,17 @@ jest.mock('next/navigation', () => ({
 }))
 
 // Mock Socket.io
-jest.mock('socket.io-client', () => ({
-  io: jest.fn(() => ({
-    on: jest.fn(),
-    emit: jest.fn(),
-    disconnect: jest.fn(),
-  })),
-}))
+jest.mock(
+  'socket.io-client',
+  () => ({
+    io: jest.fn(() => ({
+      on: jest.fn(),
+      emit: jest.fn(),
+      disconnect: jest.fn(),
+    })),
+  }),
+  { virtual: true }
+)
 
 // Mock react-i18next
 jest.mock('react-i18next', () => ({
@@ -128,6 +132,13 @@ global.console = {
   info: jest.fn(),
   warn: jest.fn(),
   error: jest.fn(),
+}
+
+// Polyfill TextEncoder/TextDecoder for libs used in tests (e.g., supertest/superagent)
+if (typeof global.TextEncoder === 'undefined' || typeof global.TextDecoder === 'undefined') {
+  const { TextEncoder, TextDecoder } = require('util')
+  global.TextEncoder = TextEncoder
+  global.TextDecoder = TextDecoder
 }
 
 // Setup test environment
